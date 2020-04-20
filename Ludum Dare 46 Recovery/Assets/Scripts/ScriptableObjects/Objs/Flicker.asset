@@ -18,5 +18,5 @@ MonoBehaviour:
   health: 5
   maxHealth: 10
   speed: 0.7
-  position: {x: 1, y: 1.75, z: 1}
+  position: {x: 53.03, y: 7.19, z: 1}
   rotation: {x: 0, y: 0, z: 0, w: 0}

@@ -30,6 +30,7 @@ public class CampFire : Burnable
         }
         player.TakeDamage(BurnValue);
         isActive = true;
+        AudioManager.instance.Play("CampFire_Loop", true);
     }
 
     private void UseCampfire()

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - MenuUI
   - GameUI
+  - Barrier
+  - Entity
   layers:
   - Default
   - TransparentFX

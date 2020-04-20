@@ -727,6 +727,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 938269434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &938843163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2002627434132825151, guid: 4bb8c8ae382b2344d83d988fbe9a4885,
+    type: 3}
+  m_PrefabInstance: {fileID: 1918498557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &938843164
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 938843163}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &943327702
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,9 +791,10 @@ GameObject:
   - component: {fileID: 966309575}
   - component: {fileID: 966309580}
   - component: {fileID: 966309579}
+  - component: {fileID: 966309581}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Entity
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -847,7 +867,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 966309574}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 53.03, y: 7.19, z: 1.39}
+  m_LocalPosition: {x: 53.03, y: 7.19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -893,6 +913,14 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!81 &966309581
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 966309574}
+  m_Enabled: 1
 --- !u!1001 &1050138777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1147,7 +1175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0ec45ba6fcf3347b37779ac1f16ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveKey: player12
+  saveKey: player123
 --- !u!4 &1617602538
 Transform:
   m_ObjectHideFlags: 0
@@ -1172,7 +1200,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1687258585}
   - component: {fileID: 1687258584}
-  - component: {fileID: 1687258582}
   - component: {fileID: 1687258586}
   m_Layer: 0
   m_Name: Main Camera
@@ -1181,14 +1208,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1687258582
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1687258581}
-  m_Enabled: 1
 --- !u!20 &1687258584
 Camera:
   m_ObjectHideFlags: 0
@@ -1239,13 +1258,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
-  m_LocalRotation: {x: -0.022957042, y: 0.97606146, z: -0.17338957, w: -0.12927918}
-  m_LocalPosition: {x: 2.32, y: 1.203, z: 2.378}
+  m_LocalRotation: {x: 0.04898401, y: 0.9451968, z: -0.16790347, w: 0.27570263}
+  m_LocalPosition: {x: 42.99, y: 11.3, z: 6.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 20.146, y: 195.09, z: 0.001}
+  m_LocalEulerAnglesHint: {x: 20.146002, y: 147.477, z: 0.001}
 --- !u!114 &1687258586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1372,7 +1391,7 @@ PrefabInstance:
     - target: {fileID: 4759493018054251016, guid: adf8e45b2a63e0c4c8760fe08b821ec6,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4759493018054251020, guid: adf8e45b2a63e0c4c8760fe08b821ec6,
         type: 3}
@@ -1725,13 +1744,25 @@ MonoBehaviour:
     loop: 1
   - clip: {fileID: 8300000, guid: 55536865b0ab11b4f802436903d8152a, type: 3}
     source: {fileID: 0}
-    name: Player_Damaged
+    name: Take_Damage
     volume: 0.5
     pitch: 1
     loop: 0
   - clip: {fileID: 8300000, guid: 299f713ca23be874f9f1341e3f607427, type: 3}
     source: {fileID: 0}
     name: Player_Jump
+    volume: 0.5
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: 13ec2e1d12aa077468f04c81a71623f2, type: 3}
+    source: {fileID: 0}
+    name: CampFire_Off
+    volume: 0.5
+    pitch: 1
+    loop: 0
+  - clip: {fileID: 8300000, guid: c5bdd42e93563204884246fcfa77fd6f, type: 3}
+    source: {fileID: 0}
+    name: CampFire_Loop
     volume: 0.5
     pitch: 1
     loop: 0

@@ -40,8 +40,7 @@ public class AudioManager : MonoBehaviour
             sound.source.loop = sound.loop;
             sound.source.spatialBlend = 1;
         }
-        Play("Violin_Music", false,0,0.75f,false, 0);
-        Play("Ruin_Atmos", true, 10, 0.25f, true, 1.5f);
+      
     }
 
     public void Play(string name, bool soundType)//0 is SFX and 1 is MFX

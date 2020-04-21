@@ -31,6 +31,7 @@ public class Entity : MonoBehaviour, IDamageable
     protected virtual void KillEntity() // this yeets the Entity component, conviniently if you do this the entity stops moving
     {
         Debug.Log("Deleted " + data.name);
+        FindObjectOfType<SceneHandler>().LoadSceneByName("LoseScreen");
         Destroy(this.gameObject);
     } // To use base class implementations in an overidden class you must use (in this functions case) base.KillEntity();
 

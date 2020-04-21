@@ -5,13 +5,13 @@ public class Stick : Burnable
 {
     public bool isActive;
     ParticleSystem burnParticle;
-    Light burnLight;
+    public bool playerIsWithinRange = false;
+    PlayerClass player;
     private void Start() // Set burnable type assign burnable value
     {
         BurnValue = 1;
         objType = BurnableType.Stick;
         burnParticle = GetComponentInChildren<ParticleSystem>();
-        burnLight = GetComponentInChildren<Light>();
     }
     public override void UseObject(PlayerClass player)
     {
@@ -25,11 +25,16 @@ public class Stick : Burnable
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && playerIsWithinRange)
+            UseObject(player);
+    }
+
     private void FixedUpdate()
     {
         if (isActive)
         {
-            burnLight.enabled = true;
             if (burnParticle.isPaused)
             {
                 burnParticle.Play();
@@ -37,12 +42,25 @@ public class Stick : Burnable
         }
         else
         {
-            burnLight.enabled = false;
             if (burnParticle.isPlaying)
             {
                 burnParticle.Pause();
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Entity") && other.gameObject.name == GameManager.playerName)
+        {
+            playerIsWithinRange = true;
+            player = other.gameObject.GetComponent<PlayerClass>();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Entity") && other.gameObject.name == GameManager.playerName)
+            playerIsWithinRange = false;
     }
 
     public override void UseObject(PlayerClass player, ParticleSystem system, Vector3 pos)
@@ -52,7 +70,7 @@ public class Stick : Burnable
     }
     public override void DestroyObject()
     {
-        Destroy(this.gameObject,1.5f);
+        Destroy(this.gameObject,3f);
     }
     public override void ResetObject()
     {

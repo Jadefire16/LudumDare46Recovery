@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     int playerDeaths = 0;
     Difficulty gameDifficulty;
     GameState gameState;
-    internal static float killLimitY = -50f;
+    internal static float killLimitY = -150f;
 
     private void Awake()
     {

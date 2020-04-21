@@ -40,7 +40,9 @@ public class AudioManager : MonoBehaviour
             sound.source.loop = sound.loop;
             sound.source.spatialBlend = 1;
         }
-      
+
+        Play("Violin_Music", false,1,0.1f,false,0,0);
+        Play("Ruin_Atmos", true, 1, 0.05f, false, 0,0);
     }
 
     public void Play(string name, bool soundType)//0 is SFX and 1 is MFX
@@ -51,6 +53,13 @@ public class AudioManager : MonoBehaviour
         Debug.Log("Played Sound " + name);
     }
 
+    public void PlaySFX(string name)//0 is SFX and 1 is MFX
+    {
+        Sound s = FindSoundInList(name,true);
+        if (s.source.isPlaying == false)
+            s.source.Play();
+    }
+
     public void ForcePlay(string name, bool soundType)//0 is SFX and 1 is MFX
     {
         Sound s = FindSoundInList(name, soundType);
@@ -58,12 +67,12 @@ public class AudioManager : MonoBehaviour
         Debug.Log("Played Sound " + name);
     }
 
-    public void Play(string name, bool soundType, int priority, float volume, bool delay, float delayTime)//0 is SFX and 1 is MFX
+    public void Play(string name, bool soundType, int priority, float volume, bool delay, float delayTime, int spacialBlend)//0 is SFX and 1 is MFX
     {
         Sound s = FindSoundInList(name, soundType);
         s.source.volume = volume;
         s.source.priority = priority;
-        s.source.spatialBlend = 1;
+        s.source.spatialBlend = spacialBlend;
         if (!delay && s.source.isPlaying == false)
             s.source.Play();
         else if (delay && s.source.isPlaying == false)

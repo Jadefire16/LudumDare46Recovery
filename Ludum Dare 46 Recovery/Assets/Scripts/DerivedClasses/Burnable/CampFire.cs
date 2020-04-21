@@ -30,7 +30,7 @@ public class CampFire : Burnable
         }
         player.TakeDamage(BurnValue);
         isActive = true;
-        AudioManager.instance.Play("CampFire_Loop", true);
+        AudioManager.instance.Play("CampFire_Loop", true,6,0.25f,false,0,0);
     }
 
     private void UseCampfire()
@@ -41,7 +41,10 @@ public class CampFire : Burnable
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.E) && playerIsWithinRange)
+        {
             UseObject(player);
+            player.lastCheckPoint = this.transform;
+        }
     }
 
     private void FixedUpdate()

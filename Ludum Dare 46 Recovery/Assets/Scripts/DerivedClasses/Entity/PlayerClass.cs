@@ -6,15 +6,29 @@ using UnityEngine.UI;
 
 public class PlayerClass : Entity
 {
+    public static PlayerClass instance;
+
     private float jumpForce = 6f;
     public Image[] fire;
-
+    public GameObject model;
     public Sprite fireLit, fireUnlit;
     public int fireVal;
     bool canMove = true;
     bool canJump = true;
    [SerializeField] Vector3 inputVec = Vector3.zero;
     AudioManager audioManager;
+    bool isGrounded;
+
+    public Transform lastCheckPoint;
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(gameObject);
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     protected override void Start()
     {
@@ -25,6 +39,17 @@ public class PlayerClass : Entity
 
     private void Update() // quick movement 
     {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1f, groundLayer, QueryTriggerInteraction.Ignore);
+        bool water = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitWater, 1f, waterLayer, QueryTriggerInteraction.Ignore);
+        if (water)
+        {
+            if (lastCheckPoint)
+                transform.position = lastCheckPoint.position;
+            else
+                transform.position = data.position;
+            TakeDamage(1);
+        }
+
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.z = Input.GetAxisRaw("Vertical");
 
@@ -36,48 +61,51 @@ public class PlayerClass : Entity
 
         if (Input.GetButton("Jump"))
         {
-            if (canJump)
+            if (canJump && isGrounded)
                 Jump();
         }
+        
+       
+        fireVal = maxHealth;
+        for (int i = 0; i < fire.Length; i++)
+        {
+            if (i < this.GetHealth())
+            {
+                fire[i].sprite = fireLit;
+            }
+            else
+            {
+                fire[i].sprite = fireUnlit;
+            }
 
+            if (i < fireVal)
+            {
+                fire[i].enabled = true;
+            }
+            else
+            {
+                fire[i].enabled = false;
+            }
 
-        if (Input.GetKeyDown(KeyCode.J)) {
-            TakeDamage(-1);
         }
-        if (Input.GetKeyDown(KeyCode.H)) {
-            TakeDamage(1);
+        if (this.GetHealth() <= 0)
+        {
+            fire[0].sprite = fireUnlit;
         }
-        //fireVal = maxHealth;
-        //for (int i = 0; i < fire.Length; i++) {
-        //    if (i < this.GetHealth()) {
-        //        fire[i].sprite = fireLit;
-        //    } else {
-        //        fire[i].sprite = fireUnlit;
-        //    }
-
-        //    if (i < fireVal) {
-        //        fire[i].enabled = true;
-        //    } else {
-        //        fire[i].enabled = false;
-        //    }
-
-        //}
-        //if (this.GetHealth() <= 0) {
-        //    fire[0].sprite = fireUnlit;
-        //}
+        
         HandleSFX();
     }
 
     public override void TakeDamage(int val)
     {
         base.TakeDamage(val);
-        audioManager.Play("Take_Damage", true);
+        audioManager.Play("Take_Damage", true, 7, 0.2f, true, 0.5f, 0);
     }
 
     private void HandleSFX()
     {
-        if (Health <= 3) { audioManager.Play("Player_Move_Injured", true); }else{ audioManager.Stop("Player_Move_Injured", true); }
-        if(Health == 10) { audioManager.Play("Max_Lives", true); } else { audioManager.Stop("Max_Lives", true); }
+        if (Health <= 3) { audioManager.Play("Player_Move_Injured", true,7,0.2f,true,0.5f,0); }else{ audioManager.Stop("Player_Move_Injured", true); }
+        if(Health == 10) { audioManager.Play("Max_Lives", true, 7, 0.2f, true, 0.5f, 0); } else { audioManager.Stop("Max_Lives", true); }
     }
 
     private void FixedUpdate() // call movement every fixed update
@@ -103,8 +131,8 @@ public class PlayerClass : Entity
 
     void Jump()
     {
-        audioManager.ForcePlay("Player_Jump", true);
         rb.velocity = Vector3.up * jumpForce;
+        audioManager.ForcePlay("Player_Jump", true);
         StartCoroutine(Wait(1.5f));
     }
 
@@ -119,7 +147,7 @@ public class PlayerClass : Entity
 
         rb.AddForce(inputVec * speed, ForceMode.VelocityChange);
 
-        transform.up = Vector3.Lerp(transform.up, hit.normal, 5 * Time.fixedDeltaTime);
+        if(isGrounded)transform.up = Vector3.Lerp(transform.up, hit.normal, 10 * Time.fixedDeltaTime);
         Debug.DrawRay(Vector3.one, hit.normal * 5, Color.red);
         Debug.Log("Called");
     }
